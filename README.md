@@ -1,6 +1,6 @@
 # Zarr Cloud Streaming
 
-A modular, production-ready prototype for **streaming Zarr data from cloud storage** using **Ice Chunk** and **Zarr 3**. This implementation supports **efficient data access**, **caching**, **intelligent prefetching**, and **PyTorch integration** — enabling scalable machine learning workflows on large cloud-hosted datasets.
+This is a modular, initial prototype for **streaming Zarr data from cloud storage** using **Ice Chunk** and **Zarr 3**. This implementation supports **efficient data access**, **caching**, **intelligent prefetching**, and **PyTorch integration** — enabling scalable machine learning workflows on large cloud-hosted datasets.
 
 ---
 
