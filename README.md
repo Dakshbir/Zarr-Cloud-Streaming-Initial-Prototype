@@ -1,7 +1,9 @@
 # Zarr Cloud Streaming
 
 [![PyPI version](https://badge.fury.io/py/zarr-cloud-streaming.svg)](https://badge.fury.io/py/zarr-cloud-streaming)
+
 [![Tests](https://github.com/yourusername/zarr-cloud-streaming/actions/workflows/tests.yml/badge.svg)](https://github.com/yourusername/zarr-cloud-streaming/actions/workflows/tests.yml)
+
 [![Documentation Status](https://readthedocs.org/projects/zarr-cloud-streaming/badge/?version=latest)](https://zarr-cloud-streaming.readthedocs.io/en/latest/?badge=latest)
 
 Efficiently stream Zarr data from cloud storage with intelligent caching and prefetching for machine learning applications.
@@ -20,7 +22,7 @@ Efficiently stream Zarr data from cloud storage with intelligent caching and pre
 pip install zarr-cloud-streaming
 
 
-For development installation:
+### For development installation:
 
 git clone https://github.com/yourusername/zarr-cloud-streaming.git
 cd zarr-cloud-streaming
@@ -34,18 +36,18 @@ pip install -e ".[dev]"
 from zarr_cloud_streaming.cloud import get_cloud_store
 from zarr_cloud_streaming.core import LRUCache
 
-Create cloud store (supports S3, GCS, Azure)
+### Create cloud store (supports S3, GCS, Azure)
 store = get_cloud_store(
 "s3://mybucket/dataset.zarr",
 provider="s3",
 anon=False
 )
 
-Open the Zarr array with caching
+### Open the Zarr array with caching
 zarr_array = store.get_array()
 print(f"Array shape: {zarr_array.shape}, dtype: {zarr_array.dtype}")
 
-Access data (fetches from cloud and caches automatically)
+### Access data (fetches from cloud and caches automatically)
 data_slice = zarr_array[10:20, 10:20]
 
 
@@ -54,7 +56,7 @@ data_slice = zarr_array[10:20, 10:20]
 from zarr_cloud_streaming.data import ZarrCloudDataset, AdaptiveCloudDataLoader
 import torch
 
-Create dataset from cloud Zarr
+### Create dataset from cloud Zarr
 dataset = ZarrCloudDataset(
 zarr_path="s3://mybucket/dataset.zarr",
 cloud_provider="s3",
@@ -63,7 +65,7 @@ prefetch_method="pattern",
 prefetch_lookahead=3
 )
 
-Create data loader with adaptive batch sizing
+### Create data loader with adaptive batch sizing
 loader = AdaptiveCloudDataLoader(
 dataset=dataset,
 batch_size=32,
@@ -72,7 +74,7 @@ num_workers=4,
 adaptive_batching=True
 )
 
-Use in training loop
+### Use in training loop
 model = YourModel()
 optimizer = torch.optim.Adam(model.parameters())
 
@@ -97,23 +99,23 @@ loss = torch.nn.functional.cross_entropy(output, target)
 
 from zarr_cloud_streaming.benchmark import BenchmarkTracker, BenchmarkVisualizer
 
-Create a benchmark tracker
+### Create a benchmark tracker
 tracker = BenchmarkTracker(
 log_dir="./benchmark_results",
 experiment_name="s3_vs_local"
 )
 
-Run your code with instrumentation
+### Run your code with instrumentation
 tracker.start_timer("data_loading")
 
-... your data loading code ...
+### ... your data loading code ...
 load_time = tracker.end_timer("data_loading")
 
-Generate reports
+### Generate reports
 stats = tracker.generate_report()
 print(f"Average loading time: {stats['data_loading']['mean']:.4f}s")
 
-Create visualizations
+### Create visualizations
 visualizer = BenchmarkVisualizer(tracker)
 visualizer.create_comparison_plots()
 
@@ -128,13 +130,13 @@ Contributions are welcome! Please check out our [contribution guidelines](CONTRI
 
 ### Development setup
 
-Install development dependencies
+### Install development dependencies
 pip install -e ".[dev,docs,benchmark]"
 
-Run tests
+### Run tests
 pytest
 
-Run linting
+### Run linting
 flake8 src tests
 black src tests
 
