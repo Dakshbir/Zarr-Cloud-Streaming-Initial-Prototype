@@ -1,21 +1,21 @@
-# ☁️ Zarr Cloud Streaming
+# Zarr Cloud Streaming
 
 A modular, production-ready prototype for **streaming Zarr data from cloud storage** using **Ice Chunk** and **Zarr 3**. This implementation supports **efficient data access**, **caching**, **intelligent prefetching**, and **PyTorch integration** — enabling scalable machine learning workflows on large cloud-hosted datasets.
 
 ---
 
-## 🚀 Features
+## Features
 
-- ✅ **Pluggable Cloud Storage**: Supports AWS S3, GCS, and more via `s3fs` and `gcsfs`.
-- ⚡ **LRU Caching**: Minimizes redundant I/O with a memory-aware Least Recently Used cache.
-- 🤖 **Intelligent Prefetching**: Pattern-based and sequential chunk preloading for optimized throughput.
-- 🔁 **PyTorch Dataset Wrapper**: Seamless integration with `torch.utils.data.Dataset`.
-- 🔄 **Adaptive DataLoader**: Adjusts batch size based on performance metrics.
-- 📊 **Benchmarking Tools**: Measure data access latency, throughput, memory, and bandwidth utilization.
+- **Pluggable Cloud Storage**: Supports AWS S3, GCS, and more via `s3fs` and `gcsfs`.
+- **LRU Caching**: Minimizes redundant I/O with a memory-aware Least Recently Used cache.
+- **Intelligent Prefetching**: Pattern-based and sequential chunk preloading for optimized throughput.
+- **PyTorch Dataset Wrapper**: Seamless integration with `torch.utils.data.Dataset`.
+- **Adaptive DataLoader**: Adjusts batch size based on performance metrics.
+- **Benchmarking Tools**: Measure data access latency, throughput, memory, and bandwidth utilization.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 zarr-cloud-streaming/
@@ -35,7 +35,7 @@ zarr-cloud-streaming/
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 Clone the repo and install dependencies:
 
@@ -53,9 +53,9 @@ pip install -e .
 
 ---
 
-## 🧪 Quickstart
+## Quickstart
 
-### 📦 Simple Cloud Access
+### Simple Cloud Access
 
 ```bash
 python examples/simple_access.py \
@@ -66,7 +66,7 @@ python examples/simple_access.py \
   --prefetch
 ```
 
-### 🤖 ML Training with Adaptive Loader
+### ML Training with Adaptive Loader
 
 ```bash
 python examples/ml_training.py \
@@ -81,7 +81,7 @@ python examples/ml_training.py \
 
 ---
 
-## 🧠 Usage Highlights
+## Usage Highlights
 
 ### 🔹 Cloud Storage Access
 
@@ -138,10 +138,6 @@ tracker.save()
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! Please open issues, PRs, or suggestions.
-
 ### Setup for Development
 
 ```bash
@@ -154,13 +150,11 @@ flake8 src/ tests/
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+## License
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Dakshbir Singh**  
 🔗 [GitHub](https://github.com/Dakshbir)  
@@ -170,7 +164,3 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 ---
 
 ## 🌐 Acknowledgements
-
-- [Zarr 3](https://zarr.readthedocs.io/en/stable/)
-- [Ice Chunk](https://github.com/zarr-developers/icechunk)
-- [PyTorch](https://pytorch.org/)
