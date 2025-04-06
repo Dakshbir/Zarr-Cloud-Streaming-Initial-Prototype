@@ -31,44 +31,45 @@ pip install -e ".[dev]"
 
 ## Quick Start
 
-from zarr_cloud_streaming.cloud import get_cloud_store
-from zarr_cloud_streaming.core import LRUCache
+    from zarr_cloud_streaming.cloud import get_cloud_store
+    from zarr_cloud_streaming.core import LRUCache
 
-store = get_cloud_store(
-"s3://mybucket/dataset.zarr",
-provider="s3",
-anon=False
-)
+    store = get_cloud_store(
+    "s3://mybucket/dataset.zarr",
+    provider="s3",
+    anon=False
+    )
 
-zarr_array = store.get_array()
-print(f"Array shape: {zarr_array.shape}, dtype: {zarr_array.dtype}")
+    zarr_array = store.get_array()
+    print(f"Array shape: {zarr_array.shape}, dtype: {zarr_array.dtype}")
 
-data_slice = zarr_array[10:20, 10:20]
+    data_slice = zarr_array[10:20, 10:20]
 
-from zarr_cloud_streaming.data import ZarrCloudDataset, AdaptiveCloudDataLoader
-import torch
+    from zarr_cloud_streaming.data import ZarrCloudDataset, AdaptiveCloudDataLoader
+    import torch
 
-dataset = ZarrCloudDataset(
-zarr_path="s3://mybucket/dataset.zarr",
-cloud_provider="s3",
-cache_size_gb=4.0,
-prefetch_method="pattern",
-prefetch_lookahead=3
-)
+    dataset = ZarrCloudDataset(
+    zarr_path="s3://mybucket/dataset.zarr",
+    cloud_provider="s3",
+    cache_size_gb=4.0,
+    prefetch_method="pattern",
+    prefetch_lookahead=3
+    )
 
-loader = AdaptiveCloudDataLoader(
-dataset=dataset,
-batch_size=32,
-shuffle=True,
-num_workers=4,
-adaptive_batching=True
-)
+    loader = AdaptiveCloudDataLoader(
+    dataset=dataset,
+    batch_size=32,
+    shuffle=True,
+    num_workers=4,
+    adaptive_batching=True
+    )
 
-model = YourModel()
-optimizer = torch.optim.Adam(model.parameters())
+    model = YourModel()
+    optimizer = torch.optim.Adam(model.parameters())
 
-for epoch in range(10):
-for batch_idx, (data, target) in enumerate(loader):
+    for epoch in range(10):
+    for batch_idx, (data, target) in enumerate(loader):
+
     # Forward pass
     output = model(data)
     loss = torch.nn.functional.cross_entropy(output, target)
