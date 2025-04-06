@@ -152,7 +152,7 @@ zarr-cloud-streaming/
 Clone the repo and install dependencies:
 
 ```bash
-git clone https://github.com/<your-username>/zarr-cloud-streaming.git
+git clone https://github.com/Dakshbir/zarr-cloud-streaming.git
 cd zarr-cloud-streaming
 pip install -r requirements.txt
 ```
@@ -228,7 +228,7 @@ dataset = ZarrCloudDataset("s3://...", cloud_provider="s3", prefetch_method="pat
 
 ---
 
-## 📊 Benchmarking
+## Benchmarking
 
 Track training time, data throughput, bandwidth utilization, and more:
 
@@ -238,15 +238,6 @@ tracker = BenchmarkTracker(log_dir="logs/", experiment_name="run1")
 tracker.log_metric("data_load_time", 0.18)
 tracker.save()
 ```
-
----
-
-## ✅ TODOs
-
-- [ ] Add support for Azure Blob Storage
-- [ ] Improve multi-threaded caching
-- [ ] Add visualizations for benchmarking results
-- [ ] CI/CD and code coverage
 
 ---
 
