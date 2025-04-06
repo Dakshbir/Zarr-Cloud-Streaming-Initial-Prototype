@@ -1,127 +1,176 @@
-# Zarr Cloud Streaming
+# ☁️ Zarr Cloud Streaming
 
-[![PyPI version](https://badge.fury.io/py/zarr-cloud-streaming.svg)](https://badge.fury.io/py/zarr-cloud-streaming)
+A modular, production-ready prototype for **streaming Zarr data from cloud storage** using **Ice Chunk** and **Zarr 3**. This implementation supports **efficient data access**, **caching**, **intelligent prefetching**, and **PyTorch integration** — enabling scalable machine learning workflows on large cloud-hosted datasets.
 
-[![Tests](https://github.com/yourusername/zarr-cloud-streaming/actions/workflows/tests.yml/badge.svg)](https://github.com/yourusername/zarr-cloud-streaming/actions/workflows/tests.yml)
+---
 
-[![Documentation Status](https://readthedocs.org/projects/zarr-cloud-streaming/badge/?version=latest)](https://zarr-cloud-streaming.readthedocs.io/en/latest/?badge=latest)
+## 🚀 Features
 
-Efficiently stream Zarr data from cloud storage with intelligent caching and prefetching for machine learning applications.
+- ✅ **Pluggable Cloud Storage**: Supports AWS S3, GCS, and more via `s3fs` and `gcsfs`.
+- ⚡ **LRU Caching**: Minimizes redundant I/O with a memory-aware Least Recently Used cache.
+- 🤖 **Intelligent Prefetching**: Pattern-based and sequential chunk preloading for optimized throughput.
+- 🔁 **PyTorch Dataset Wrapper**: Seamless integration with `torch.utils.data.Dataset`.
+- 🔄 **Adaptive DataLoader**: Adjusts batch size based on performance metrics.
+- 📊 **Benchmarking Tools**: Measure data access latency, throughput, memory, and bandwidth utilization.
 
-## Features
+---
 
-- **Efficient cloud access**: Optimized storage backends for AWS S3, Google Cloud Storage, and Azure Blob Storage
-- **Intelligent caching**: LRU cache with configurable size to minimize cloud requests
-- **Advanced prefetching**: Pattern-based and sequential prefetching strategies
-- **PyTorch integration**: Seamless integration with PyTorch training pipelines
-- **Adaptive batch sizing**: Dynamic adjustment based on data loading performance
-- **Comprehensive benchmarking**: Detailed performance metrics and visualizations
+## 📁 Project Structure
 
-## Installation
+```
+zarr-cloud-streaming/
+│
+├── src/
+│   ├── cloud/             # Cloud storage interfaces (S3, GCS, etc.)
+│   ├── core/              # Caching, prefetching, chunking logic
+│   ├── data/              # PyTorch dataset and adaptive dataloader
+│   └── benchmark/         # Performance metrics and tracking
+│
+├── examples/              # Example scripts (simple access, ML training)
+├── tests/                 # Unit and integration tests
+├── requirements.txt       # Python dependencies
+├── setup.py               # Package installation
+└── README.md              # Project documentation
+```
 
-pip install zarr-cloud-streaming
+---
 
+## 🛠️ Installation
 
-### For development installation:
+Clone the repo and install dependencies:
 
-git clone https://github.com/yourusername/zarr-cloud-streaming.git
+```bash
+git clone https://github.com/<your-username>/zarr-cloud-streaming.git
 cd zarr-cloud-streaming
-pip install -e ".[dev]"
+pip install -r requirements.txt
+```
 
+Optionally, install in editable mode:
 
-## Quick Start
+```bash
+pip install -e .
+```
 
-    from zarr_cloud_streaming.cloud import get_cloud_store
-    from zarr_cloud_streaming.core import LRUCache
+---
 
-    store = get_cloud_store(
-    "s3://mybucket/dataset.zarr",
-    provider="s3",
-    anon=False
-    )
+## 🧪 Quickstart
 
-    zarr_array = store.get_array()
-    print(f"Array shape: {zarr_array.shape}, dtype: {zarr_array.dtype}")
+### 📦 Simple Cloud Access
 
-    data_slice = zarr_array[10:20, 10:20]
+```bash
+python examples/simple_access.py \
+  --zarr_path "s3://your-bucket/data.zarr" \
+  --cloud_provider s3 \
+  --anonymous False \
+  --cache_size 2.0 \
+  --prefetch
+```
 
-    from zarr_cloud_streaming.data import ZarrCloudDataset, AdaptiveCloudDataLoader
-    import torch
+### 🤖 ML Training with Adaptive Loader
 
-    dataset = ZarrCloudDataset(
-    zarr_path="s3://mybucket/dataset.zarr",
-    cloud_provider="s3",
-    cache_size_gb=4.0,
-    prefetch_method="pattern",
-    prefetch_lookahead=3
-    )
+```bash
+python examples/ml_training.py \
+  --zarr_path "s3://your-bucket/data.zarr" \
+  --cloud_provider s3 \
+  --batch_size 64 \
+  --prefetch_method pattern \
+  --prefetch_lookahead 3 \
+  --adaptive_batching \
+  --output_dir logs/
+```
 
-    loader = AdaptiveCloudDataLoader(
-    dataset=dataset,
-    batch_size=32,
-    shuffle=True,
-    num_workers=4,
-    adaptive_batching=True
-    )
+---
 
-    model = YourModel()
-    optimizer = torch.optim.Adam(model.parameters())
+## 🧠 Usage Highlights
 
-    for epoch in range(10):
-    for batch_idx, (data, target) in enumerate(loader):
+### 🔹 Cloud Storage Access
 
-    # Forward pass
-    output = model(data)
-    loss = torch.nn.functional.cross_entropy(output, target)
+```python
+from src.cloud.storage import get_cloud_store
+store = get_cloud_store("s3://my-bucket/data.zarr", provider="s3")
+zarr_array = store.get_array()
+```
 
-    # Backward pass
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
-    
-    if batch_idx % 10 == 0:
-        print(f"Epoch: {epoch}, Batch: {batch_idx}, Loss: {loss.item()}")
+### 🔹 LRU Caching
 
+```python
+from src.core.cache import LRUCache
+cache = LRUCache(max_size_gb=2.0)
+cache.put("chunk-key", data_chunk)
+```
 
-## Advanced Features
+### 🔹 Prefetching
 
-from zarr_cloud_streaming.benchmark import BenchmarkTracker, BenchmarkVisualizer
+```python
+from src.core.prefetch import SequentialPrefetcher
+prefetcher = SequentialPrefetcher(fetch_func, cache.put, lookahead=5)
+prefetcher.queue_keys(["key1", "key2", "key3"])
+```
 
-tracker = BenchmarkTracker(
-log_dir="./benchmark_results",
-experiment_name="s3_vs_local"
-)
-tracker.start_timer("data_loading")
+### 🔹 PyTorch Dataset
 
-#... your data loading code ...
-load_time = tracker.end_timer("data_loading")
+```python
+from src.data.dataset import ZarrCloudDataset
+dataset = ZarrCloudDataset("s3://...", cloud_provider="s3", prefetch_method="pattern")
+```
 
-stats = tracker.generate_report()
-print(f"Average loading time: {stats['data_loading']['mean']:.4f}s")
+---
 
-visualizer = BenchmarkVisualizer(tracker)
-visualizer.create_comparison_plots()
+## 📊 Benchmarking
 
+Track training time, data throughput, bandwidth utilization, and more:
 
-## Documentation
+```python
+from src.benchmark.metrics import BenchmarkTracker
+tracker = BenchmarkTracker(log_dir="logs/", experiment_name="run1")
+tracker.log_metric("data_load_time", 0.18)
+tracker.save()
+```
 
-For full documentation, visit [zarr-cloud-streaming.readthedocs.io](https://zarr-cloud-streaming.readthedocs.io/).
+---
 
+## ✅ TODOs
 
-### Development setup
+- [ ] Add support for Azure Blob Storage
+- [ ] Improve multi-threaded caching
+- [ ] Add visualizations for benchmarking results
+- [ ] CI/CD and code coverage
 
-### Install development dependencies
-pip install -e ".[dev,docs,benchmark]"
+---
 
-### Run tests
-pytest
+## 🤝 Contributing
 
-### Run linting
-flake8 src tests
-black src tests
+Contributions are welcome! Please open issues, PRs, or suggestions.
 
-## License
+### Setup for Development
 
+```bash
+# Run tests
+pytest tests/
 
-## Acknowledgments
+# Linting
+flake8 src/ tests/
+```
 
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Author
+
+**Dakshbir Singh**  
+🔗 [GitHub](https://github.com/Dakshbir)  
+🔗 [LinkedIn](https://www.linkedin.com/in/dakshbir-singh-kapoor-26210b286/)  
+✉️ [dakshbirkapoor@gmail.com](mailto:dakshbirkapoor@gmail.com)
+
+---
+
+## 🌐 Acknowledgements
+
+- [Zarr 3](https://zarr.readthedocs.io/en/stable/)
+- [Ice Chunk](https://github.com/zarr-developers/icechunk)
+- [PyTorch](https://pytorch.org/)
