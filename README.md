@@ -15,7 +15,7 @@ This is a modular, initial prototype for **streaming Zarr data from cloud storag
 
 ---
 
-## Project Structure
+## Project Structure- Initial 
 
 ```
 zarr-cloud-streaming/
@@ -31,6 +31,118 @@ zarr-cloud-streaming/
 ├── requirements.txt       # Python dependencies
 ├── setup.py               # Package installation
 └── README.md              # Project documentation
+```
+
+---
+
+## Project Structure- Final (At the end of the project)
+
+```
+zarr-cloud-streaming/
+│
+├── src/
+│   ├── cloud/                       # Cloud storage interfaces
+│   │   ├── __init__.py
+│   │   ├── storage.py               # Base storage implementations
+│   │   ├── s3_store.py              # AWS S3 specific implementation
+│   │   ├── gcs_store.py             # Google Cloud Storage implementation 
+│   │   └── azure_store.py           # Azure Blob Storage implementation
+│   │
+│   ├── core/                        # Core functionality
+│   │   ├── __init__.py
+│   │   ├── cache.py                 # LRU caching system
+│   │   ├── prefetch.py              # Intelligent prefetching
+│   │   ├── config.py                # Configuration management
+│   │   └── utils.py                 # Common utilities
+│   │
+│   ├── data/                        # PyTorch integration
+│   │   ├── __init__.py
+│   │   ├── dataset.py               # PyTorch Dataset implementation
+│   │   ├── loader.py                # Custom DataLoader for cloud streaming
+│   │   ├── transforms.py            # Data transformation utilities
+│   │   └── samplers.py              # Custom sampling strategies
+│   │
+│   └── benchmark/                   # Performance tracking
+│       ├── __init__.py
+│       ├── metrics.py               # Performance metrics collection
+│       ├── visualize.py             # Results visualization 
+│       ├── analyze.py               # Analysis utilities
+│       └── comparison.py            # Benchmark comparison tools
+│
+├── examples/                        # Usage examples
+│   ├── __init__.py
+│   ├── simple_access.py             # Basic data access example
+│   ├── ml_training.py               # Machine learning training example
+│   ├── caching_strategies.py        # Caching strategy examples
+│   ├── prefetch_patterns.py         # Prefetching pattern examples
+│   └── cloud_comparison.py          # Cloud provider comparison
+│
+├── tests/                           # Test cases
+│   ├── __init__.py
+│   ├── conftest.py                  # Test configuration
+│   ├── test_cloud/                  # Storage backend tests
+│   │   ├── __init__.py
+│   │   ├── test_s3.py
+│   │   ├── test_gcs.py
+│   │   └── test_azure.py
+│   ├── test_core/                   # Core functionality tests
+│   │   ├── __init__.py
+│   │   ├── test_cache.py
+│   │   └── test_prefetch.py
+│   ├── test_data/                   # Dataset and loader tests
+│   │   ├── __init__.py
+│   │   ├── test_dataset.py
+│   │   └── test_loader.py
+│   └── test_benchmark/              # Benchmark tests
+│       ├── __init__.py
+│       └── test_metrics.py
+│
+├── notebooks/                       # Jupyter notebooks
+│   ├── quickstart.ipynb             # Getting started tutorial
+│   ├── benchmark_analysis.ipynb     # Performance analysis
+│   ├── cloud_comparison.ipynb       # Cloud provider comparison
+│   └── advanced_usage.ipynb         # Advanced usage patterns
+│
+├── docs/                            # Documentation
+│   ├── index.md                     # Main documentation page
+│   ├── installation.md              # Installation instructions
+│   ├── quickstart.md                # Getting started guide
+│   ├── api/                         # API documentation
+│   │   ├── cloud.md                 # Cloud storage API docs
+│   │   ├── core.md                  # Core functionality docs
+│   │   ├── data.md                  # Data loading API docs
+│   │   └── benchmark.md             # Benchmarking API docs
+│   ├── examples/                    # Example documentation
+│   │   ├── basic.md                 # Basic usage examples
+│   │   └── advanced.md              # Advanced usage examples
+│   └── performance/                 # Performance documentation
+│       ├── benchmarks.md            # Benchmark results
+│       └── optimization.md          # Optimization strategies
+│
+├── scripts/                         # Utility scripts
+│   ├── benchmark.py                 # Run benchmarks
+│   ├── convert_to_zarr.py           # Convert datasets to Zarr format
+│   └── deploy_cloud.py              # Deploy to cloud environments
+│
+├── .github/                         # GitHub configuration
+│   ├── workflows/                   # CI/CD workflows
+│   │   ├── tests.yml                # Run tests
+│   │   ├── lint.yml                 # Run linting
+│   │   └── publish.yml              # Publish package
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   └── PULL_REQUEST_TEMPLATE.md
+│
+├── requirements.txt                 # Basic requirements
+├── requirements-dev.txt             # Development requirements
+├── setup.py                         # Package setup
+├── setup.cfg                        # Package configuration
+├── pyproject.toml                   # Build system requirements
+├── LICENSE                          # License file
+├── CHANGELOG.md                     # Version changes
+├── CONTRIBUTING.md                  # Contribution guidelines
+└── README.md                        # Project overview
 ```
 
 ---
